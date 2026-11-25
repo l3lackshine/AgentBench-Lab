@@ -10,7 +10,7 @@ const JSZip = JSZipModule?.default;
 async function fixture(expectedAgentIds: string[]) {
   if (!JSZip) throw new Error('jszip dependency unavailable');
   const dir = await mkdtemp(path.join(tmpdir(), 'agentbench-ci-'));
-  const zip = new JSZip();
+  const zip = new (JSZip!)();
   zip.file('agents/builder.md', '---\nname: builder\n---\nBuild interfaces and components.');
   zip.file('skills/api-documentation/SKILL.md', '---\nname: api-documentation\n---\nDocument API endpoints.');
   await writeFile(path.join(dir, 'package.zip'), await zip.generateAsync({ type: 'nodebuffer' }));
@@ -42,7 +42,7 @@ test('CI runner exits non-zero when a scenario assertion fails', { skip: !JSZip 
 test('CI runner rejects unsafe ZIP paths', { skip: !JSZip }, async () => {
   const dir = await mkdtemp(path.join(tmpdir(), 'agentbench-ci-'));
   try {
-    const zip = new JSZip(); zip.file('../escape.md', 'bad');
+    const zip = new (JSZip!)(); zip.file('../escape.md', 'bad');
     await writeFile(path.join(dir, 'package.zip'), await zip.generateAsync({ type: 'nodebuffer' }));
     await writeFile(path.join(dir, 'scenarios.json'), JSON.stringify({ schemaVersion: 1, scenarios: [{ id: 'x', name: 'x', task: 'test' }] }));
     const run = spawnSync(process.execPath, ['--experimental-strip-types', 'scripts/agentbench-ci.ts', '--package', path.join(dir, 'package.zip'), '--scenarios', path.join(dir, 'scenarios.json')], { encoding: 'utf8' });
