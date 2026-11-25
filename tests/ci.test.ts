@@ -8,6 +8,7 @@ const JSZipModule = await import('jszip').catch(() => null);
 const JSZip = JSZipModule?.default;
 
 async function fixture(expectedAgentIds: string[]) {
+  if (!JSZip) throw new Error('jszip dependency unavailable');
   const dir = await mkdtemp(path.join(tmpdir(), 'agentbench-ci-'));
   const zip = new JSZip();
   zip.file('agents/builder.md', '---\nname: builder\n---\nBuild interfaces and components.');
