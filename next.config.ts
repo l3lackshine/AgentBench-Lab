@@ -29,6 +29,7 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  output: 'export',
   poweredByHeader: false,
   serverExternalPackages: ['jszip'],
   async headers() {
