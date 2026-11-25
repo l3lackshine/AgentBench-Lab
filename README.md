@@ -47,3 +47,7 @@ The web app has no ZIP upload, analyze, or simulate API routes. Normal page/stat
 ## Release status
 
 v0.11.0 is a production-readiness hardening candidate. Do not treat it as security-certified: run the deployment checklist, live-provider smoke tests, dependency audit, and target-host verification before public launch.
+
+## Cloudflare Pages deployment
+
+The repository is configured for a static Next.js export. Cloudflare Pages builds with `npm run build` and publishes the `out/` directory.
