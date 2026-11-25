@@ -7,6 +7,7 @@ const readTextPackage = packageModule?.readTextPackage!;
 const ZipPackageError = packageModule?.ZipPackageError!;
 
 async function archive(entries: Array<[string, string]>) {
+  if (!JSZip) throw new Error('jszip dependency unavailable');
   const zip = new JSZip();
   for (const [name, content] of entries) zip.file(name, content);
   return zip.generateAsync({ type: 'uint8array', compression: 'DEFLATE', compressionOptions: { level: 9 } });
