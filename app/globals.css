@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root { color-scheme: dark; }
+body { background:#0b1020; color:#e5e7eb; }
+.panel { background:rgba(20,29,51,.88); border:1px solid #263451; border-radius:16px; }
+.mode-card { border:1px solid #334155; border-radius:14px; padding:18px; background:rgba(15,23,42,.72); transition:border-color .15s,background .15s; }
+.mode-card:hover { border-color:#64748b; }
+.mode-card-active { border-color:#22d3ee; background:rgba(8,47,73,.35); box-shadow:0 0 0 1px rgba(34,211,238,.18); }
+.mode-pill { border:1px solid #475569; border-radius:999px; padding:4px 9px; font-size:11px; color:#94a3b8; }
+.mode-pill-active { border-color:#0891b2; color:#a5f3fc; background:rgba(8,145,178,.12); }
+.ad-slot { min-height:58px; display:flex; align-items:center; justify-content:center; gap:12px; flex-wrap:wrap; border:1px dashed #334155; border-radius:10px; padding:10px 14px; background:rgba(15,23,42,.35); }
+.ad-label { font-size:9px; letter-spacing:.14em; color:#64748b; }

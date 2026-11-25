@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "scenarios": [
+    {
+      "id": "explicit-builder",
+      "name": "Explicit builder selection",
+      "task": "@agent:builder implement the inventory interface",
+      "expectedAgentIds": ["builder"],
+      "mustNotSelectAgentIds": ["writer"]
+    },
+    {
+      "id": "skill-docs",
+      "name": "Documentation skill routing",
+      "task": "Write API documentation and explain endpoint usage",
+      "expectedSkillIds": ["api-documentation"]
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "name": "agentbench-lab",
+  "version": "0.11.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "node --experimental-strip-types --test tests/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "agentbench:ci": "node --experimental-strip-types scripts/agentbench-ci.ts"
+  },
+  "dependencies": {
+    "next": "^15.2.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.3",
+    "eslint": "^9.21.0"
+  },
+  "engines": {
+    "node": ">=22.6.0",
+    "npm": ">=10.0.0"
+  }
+}

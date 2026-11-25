@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { createSnapshot, compareSnapshots, validateSnapshotImport, snapshotMarkdown } from '../lib/snapshots.ts';
+const make = (id: string, fingerprint: string, agents = ['planner'], status = 'passed') => createSnapshot({ id, label: id, createdAt: '2026-11-25T00:00:00.000Z', files: [{ path: 'agents/planner.md', kind: 'Agent', chars: 10, fingerprint }], totals: { files: 1, chars: 10, agents: 1, skills: 0 }, task: 'plan', agents, scenarios: [{ id: 'basic', name: 'Basic', status, actualAgentIds: agents, actualSkillIds: [] }] });
+test('detects modified package files', () => assert.deepEqual(compareSnapshots(make('a','one'), make('b','two')).files.modified, ['agents/planner.md']));
+test('detects added and removed routes', () => { const d = compareSnapshots(make('a','one',['planner']), make('b','one',['builder'])); assert.deepEqual(d.agents.added, ['builder']); assert.deepEqual(d.agents.removed, ['planner']); assert.equal(d.scenarios.changes[0].routingChanged, true); });
+test('detects scenario status regression', () => assert.equal(compareSnapshots(make('a','one'), make('b','one',['planner'],'failed')).scenarios.changes[0].change, 'changed'));
+test('validates exported snapshots', () => assert.equal(validateSnapshotImport({ schemaVersion: 1, snapshots: [make('a','one')] }).length, 1));
+test('rejects unsupported export schema', () => assert.throws(() => validateSnapshotImport({ schemaVersion: 2, snapshots: [] })));
+test('exports a readable Markdown report', () => assert.match(snapshotMarkdown(make('a','one')), /Regression Report/));
