@@ -4,15 +4,16 @@ import { readFile } from 'node:fs/promises';
 import { runClaudeRuntime } from '../lib/provider-runtime.ts';
 
 test('production security headers restrict external connections to Anthropic API', async () => {
-  const config = await readFile('next.config.ts', 'utf8');
-  assert.match(config, /X-Content-Type-Options/);
-  assert.match(config, /X-Frame-Options/);
-  assert.match(config, /Referrer-Policy/);
-  assert.match(config, /Permissions-Policy/);
-  assert.match(config, /connect-src[^\n]*https:\/\/api\.anthropic\.com/);
-  assert.match(config, /object-src 'none'/);
-  assert.match(config, /frame-ancestors 'none'/);
-  assert.doesNotMatch(config, /unsafe-eval/);
+  // Cloudflare Pages serves static-export security headers from public/_headers.
+  const headers = await readFile('public/_headers', 'utf8');
+  assert.match(headers, /X-Content-Type-Options:\s*nosniff/);
+  assert.match(headers, /X-Frame-Options:\s*DENY/);
+  assert.match(headers, /Referrer-Policy:/);
+  assert.match(headers, /Permissions-Policy:/);
+  assert.match(headers, /connect-src[^\n]*https:\/\/api\.anthropic\.com/);
+  assert.match(headers, /object-src 'none'/);
+  assert.match(headers, /frame-ancestors 'none'/);
+  assert.doesNotMatch(headers, /unsafe-eval/);
 });
 
 test('production app disables indexing and does not expose server upload routes', async () => {
